@@ -4,14 +4,14 @@ import java.util.Random;
 public class Corredor implements Runnable{
 
     private final Integer idCorredor, tempoEspera, distanciaFinal;
-    private final JLabel labelCorredor;
+    private final JProgressBar barCorredor;
     private Integer distanciaAtual = 0;
 
-    public Corredor(Integer idCorredor, Integer tempoEspera, Integer distanciaFinal, JLabel labelCorredor) {
+    public Corredor(Integer idCorredor, Integer tempoEspera, Integer distanciaFinal, JProgressBar barCorredor) {
         this.idCorredor = idCorredor;
         this.tempoEspera = tempoEspera;
         this.distanciaFinal = distanciaFinal;
-        this.labelCorredor = labelCorredor;
+        this.barCorredor = barCorredor;
     }
 
     @Override
@@ -25,9 +25,9 @@ public class Corredor implements Runnable{
                 setdistanciaAtual(distanciaAtual + distanciaPercorrida);
                 if(distanciaAtual >= distanciaFinal){
                     ControladorCorrida.setAcabou(true);
-                    setLabelCorredor("Corredor " + idCorredor + " chegou aos" + distanciaFinal + "m, Venceu!");
+                    setBarCorredor("Corredor " + idCorredor + " chegou aos" + distanciaFinal + "m, Venceu!");
                 } else {
-                    setLabelCorredor("Corredor " + idCorredor + " está em " + distanciaAtual + " metros");
+                    setBarCorredor("Corredor " + idCorredor + " está em " + distanciaAtual + " metros");
                 }
 
                 Thread.sleep((long) (Math.random() * tempoEspera));
@@ -41,5 +41,8 @@ public class Corredor implements Runnable{
         this.distanciaAtual = distanciaAtual;
     }
 
-    public void setLabelCorredor(String text) {this.labelCorredor.setText(text);}
+    public void setBarCorredor(String text) {
+        int conta = (this.distanciaAtual * 100)/distanciaFinal;
+        this.barCorredor.setValue(conta);
+    }
 }
